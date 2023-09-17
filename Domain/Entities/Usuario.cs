@@ -2,14 +2,11 @@
 {
     public class Usuario
     {
-        public int UsuarioId { get; set; }
-        public required string Nombre { get; set; }
-        public required string Apellido { get; set; }
-        public required string Email { get; set; }
-        public int FotoPerfil { get; set; }
-
-        // Identificadores de recetas y comentarios asociados con este usuario
-        public required List<int> RecetaIds { get; set; }
-        public required List<int> ComentarioIds { get; set; }
+        public Guid UsuarioId { get; set; }
+        public string? Nombre { get; set; }
+        public string? Apellido { get; set; }
+        public string? Email { get; set; }
+        public string FotoPerfil { get; set; }
+        public string PasswordHash { get; set; }
     }
 }

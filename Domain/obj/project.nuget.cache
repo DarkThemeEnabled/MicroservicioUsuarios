@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "aJu3nCZtbDP0ini8XA0LMFZO6GLKPjKHTGVcBq6q4KLkRPX4EryUIuXQdsVh4MrD0vx/uU0vCqsJjDktv7CGSQ==",
+  "dgSpecHash": "iZjTIZtXPck1xJtQcsRoo2YTVZR7P9dUTxj7WVnOXMiLSuLWgli5NExcrrsH2Au0fbF+tQyOf5o/Jt+Fd2oOSw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Usuario\\Domain\\Domain.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maria\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+  ],
   "logs": []
 }

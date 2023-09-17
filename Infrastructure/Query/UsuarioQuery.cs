@@ -1,24 +1,31 @@
-﻿namespace Infrastructure.Query
+﻿using Application.Interfaces;
+using Domain.Entities;
+using Infrastructure.Persistence;
+
+namespace Infrastructure.Services
 {
-    public class UsuarioQuery
+    public class UsuarioQuery : IUsuarioQuery
     {
-        // GetUsuariosQuery
-        public class GetUsuariosQuery
+        private readonly UsuarioContext _context;
+
+        public UsuarioQuery(UsuarioContext context)
         {
-            public string Nombre { get; set; }
-            public string Email { get; set; }
+            _context = context;
         }
 
-        // GetUsuarioByIdQuery
-        public class GetUsuarioByIdQuery
+        public async Task<IEnumerable<Usuario>> ObtenerTodosLosUsuarios()
         {
-            public int UsuarioId { get; set; }
-
-            public GetUsuarioByIdQuery(int usuarioId)
-            {
-                UsuarioId = usuarioId;
-            }
+            return await Task.FromResult(_context.Usuarios.ToList());
         }
 
+        public async Task<Usuario?> ObtenerUsuarioPorId(Guid usuarioId)
+        {
+            return await _context.Usuarios.FindAsync(usuarioId);
+        }
+
+        public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorNombre(string nombre)
+        {
+            return await Task.FromResult(_context.Usuarios.Where(u => u.Nombre.Contains(nombre)).ToList());
+        }
     }
 }

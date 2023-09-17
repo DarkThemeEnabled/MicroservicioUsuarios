@@ -1,66 +1,64 @@
-﻿using Domain.DTO;
+﻿using Application.Interfaces;
+using Domain.Entities;
+using Infrastructure.Persistence;
 
-namespace Infrastructure.Command
+namespace Infrastructure.Services
 {
-    public class UsuarioCommand
+    public class UsuarioCommand : IUsuarioCommand
     {
-        // CreateUsuarioCommand
-        public class CreateUsuarioCommand
-        {
-            public UsuarioDto Usuario { get; set; }
+        private readonly UsuarioContext _context;
 
-            public CreateUsuarioCommand(UsuarioDto usuario)
-            {
-                Usuario = usuario;
-            }
+        public UsuarioCommand(UsuarioContext context)
+        {
+            _context = context;
         }
 
-        // DeleteUsuarioCommand
-        public class DeleteUsuarioCommand
+        public async Task<Usuario> RegistrarUsuario(string nombre, string apellido, string email, string fotoPerfil)
         {
-            public int UsuarioId { get; set; }
-
-            public DeleteUsuarioCommand(int usuarioId)
+            var usuario = new Usuario
             {
-                UsuarioId = usuarioId;
-            }
+                UsuarioId = Guid.NewGuid(),
+                Nombre = nombre,
+                Apellido = apellido,
+                Email = email,
+                FotoPerfil = fotoPerfil
+            };
+
+            _context.Usuarios.Add(usuario);
+            await _context.SaveChangesAsync();
+
+            return usuario;
         }
 
-        // UpdateUsuarioCommand
-        public class UpdateUsuarioCommand
+        public async Task<Usuario> ActualizarUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil)
         {
-            public int UsuarioId { get; set; }
-            public UsuarioDto Usuario { get; set; }
-
-            public UpdateUsuarioCommand(int usuarioId, UsuarioDto usuario)
+            var usuario = await _context.Usuarios.FindAsync(usuarioId);
+            if (usuario == null)
             {
-                UsuarioId = usuarioId;
-                Usuario = usuario;
+                throw new Exception("Usuario no encontrado");
             }
+
+            usuario.Nombre = nombre;
+            usuario.Apellido = apellido;
+            usuario.Email = email;
+            usuario.FotoPerfil = fotoPerfil;
+
+            _context.Usuarios.Update(usuario);
+            await _context.SaveChangesAsync();
+
+            return usuario;
         }
 
-        // RegisterUsuarioCommand
-        public class RegisterUsuarioCommand
+        public async Task EliminarUsuario(Guid usuarioId)
         {
-            public UsuarioDto Usuario { get; set; }
-
-            public RegisterUsuarioCommand(UsuarioDto usuario)
+            var usuario = await _context.Usuarios.FindAsync(usuarioId);
+            if (usuario == null)
             {
-                Usuario = usuario;
+                throw new Exception("Usuario no encontrado");
             }
-        }
 
-        // AuthenticateUsuarioCommand
-        public class AuthenticateUsuarioCommand
-        {
-            public string Email { get; set; }
-            public string Password { get; set; }
-
-            public AuthenticateUsuarioCommand(string email, string password)
-            {
-                Email = email;
-                Password = password;
-            }
+            _context.Usuarios.Remove(usuario);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "FVMVLTX2st9i3Wcsury6s3Brm6+qYWh1Yp3pcW7KNjEvL222VhzK9cPiU+/pEGHb+3h/OlJkLG6c8dhb98tQ8A==",
+  "dgSpecHash": "nn+vUZWtes4LW0qelnOPzBYyRjTzj2YtKTSqX3vV1pQa6n6MPsdidm0qcEulkhHbOcFyZPnNYgUIks8deqWL9Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Usuario\\Application\\Application.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Application\\Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\maria\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
+    "C:\\Users\\maria\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.0.0\\microsoft.identitymodel.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\maria\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\7.0.0\\microsoft.identitymodel.jsonwebtokens.7.0.0.nupkg.sha512",
+    "C:\\Users\\maria\\.nuget\\packages\\microsoft.identitymodel.logging\\7.0.0\\microsoft.identitymodel.logging.7.0.0.nupkg.sha512",
+    "C:\\Users\\maria\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.0.0\\microsoft.identitymodel.tokens.7.0.0.nupkg.sha512",
+    "C:\\Users\\maria\\.nuget\\packages\\portable.bouncycastle\\1.9.0\\portable.bouncycastle.1.9.0.nupkg.sha512",
+    "C:\\Users\\maria\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.0.0\\system.identitymodel.tokens.jwt.7.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

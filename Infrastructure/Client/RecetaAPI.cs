@@ -1,6 +1,6 @@
 ﻿namespace Infraestructure.Client
 {
-    public class RecetaApi : IRecetaApi
+    public class RecetaApi //: IRecetaApi
     {
         private readonly HttpClient _httpClient;
 
