@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Domain.DTO;
 using Domain.Entities;
 
 namespace Infrastructure.Services
@@ -15,14 +16,14 @@ namespace Infrastructure.Services
         }
 
         // Implementaciones de IUsuarioCommand
-        public Task<Usuario> RegistrarUsuario(string nombre, string apellido, string email, string fotoPerfil)
+        public Task<Usuario> RegistrarUsuario(string nombre, string apellido, string username, string fotoPerfil, string email, string password)
         {
-            return _command.RegistrarUsuario(nombre, apellido, email, fotoPerfil);
+            return _command.RegistrarUsuario(nombre, apellido, username, fotoPerfil, email, password);
         }
 
-        public Task<Usuario> ActualizarUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil)
+        public Task<Usuario> ActualizarUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password)
         {
-            return _command.ActualizarUsuario(usuarioId, nombre, apellido, email, fotoPerfil);
+            return _command.ActualizarUsuario(usuarioId, nombre, apellido, email, fotoPerfil, password);
         }
 
         public Task EliminarUsuario(Guid usuarioId)

@@ -1,12 +1,13 @@
 ﻿using Application.Interfaces;
 using Application.Request;
+using Application.UseCases;
 using Domain.DTO;
 using Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-
+using System.Text.RegularExpressions;
 
 namespace Application.Services
 {
@@ -16,37 +17,35 @@ namespace Application.Services
         private readonly IAuthQuery _query;
         private readonly string _jwtKey;
         private readonly string _jwtIssuer;
+        private readonly PasswordService _passwordService;
 
-        public AuthService(IAuthCommand command, IAuthQuery query, string jwtKey, string jwtIssuer)
+        public AuthService(IAuthCommand command, IAuthQuery query, string jwtKey, string jwtIssuer, PasswordService passwordService)
         {
             _command = command;
             _query = query;
             _jwtKey = jwtKey;
             _jwtIssuer = jwtIssuer;
+            _passwordService = passwordService;
         }
+
         public async Task<bool> VerifyCredentials(string email, string password)
         {
             // Realiza una consulta para obtener el usuario por su correo electrónico
             var user = await _query.GetUsuarioByEmail(email);
 
             // Si el usuario no existe, o las contraseñas no coinciden, retorna false
-            if (user == null || !VerifyPasswordHash(password, user.PasswordHash))
+            if (user == null || !_passwordService.VerifyPassword(password, user.PasswordHash))
             {
                 return false;
             }
 
             return true; // Las credenciales son válidas
         }
-        private bool VerifyPasswordHash(string password, string storedHash)
-        {
-            // Implementa la lógica de verificación de contraseña con tu algoritmo de hash elegido
-            return BCrypt.Net.BCrypt.Verify(password, storedHash);
-        }
 
         public async Task<string> Register(string email, string password)
         {
             // Implementación del registro (ej. guardar el usuario en la base de datos)
-            await _command.Registrar(new RegisterRequest { Email = email, Password = password });
+            await _command.Registrar(new RegisterRequest { Email = email, Password = _passwordService.HashPassword(password) });
             return GenerateJwtToken(email);
         }
 
@@ -59,7 +58,7 @@ namespace Application.Services
                 return null;
             }
 
-            if (!VerifyPasswordHash(password, user.PasswordHash))
+            if (!_passwordService.VerifyPassword(password, user.PasswordHash))
             {
                 return null;
             }
@@ -67,6 +66,7 @@ namespace Application.Services
             string token = GenerateJwtToken(email);
             return token;
         }
+
         private string GenerateJwtToken(string email)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -129,6 +129,18 @@ namespace Application.Services
         public async Task<Usuario> GetUsuarioByEmail(string email)
         {
             return await _query.GetUsuarioByEmail(email);
+        }
+        public bool IsPasswordValid(string password)
+        {
+            // Longitud mínima (por ejemplo, 8 caracteres)
+            int minLength = 8;
+            return password.Length >= minLength;
+        }
+        public bool IsPasswordComplex(string password)
+        {
+            // Utiliza una expresión regular para verificar la complejidad de la contraseña
+            string pattern = @"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$";
+            return Regex.IsMatch(password, pattern);
         }
 
     }

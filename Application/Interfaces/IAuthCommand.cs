@@ -1,10 +1,11 @@
 ﻿using Application.Request;
+using Application.Response;
 
 namespace Application.Interfaces
 {
     public interface IAuthCommand
     {
-        Task<AuthRequest> Registrar(RegisterRequest request);
-        Task<AuthRequest> Login(LoginRequest request);
+        Task<AuthResponse> Registrar(RegisterRequest request);
+        Task<AuthResponse> Login(LoginRequest request);
     }
 }

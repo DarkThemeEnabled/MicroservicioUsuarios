@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Infraestructure.Persistence;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
@@ -12,6 +13,7 @@ namespace Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UsuarioConfig());
+            //modelBuilder.ApplyConfiguration(new UsuarioData());
         }
     }
 }

@@ -76,6 +76,14 @@ C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.pdb
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.genruntimeconfig.cache
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\ref\MicroservicioUsuarios.dll
-C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\BCrypt.Net-Next.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\BouncyCastle.Crypto.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Humanizer.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Mono.TextTemplating.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\System.CodeDom.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.Practices.ServiceLocation.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\XAct.Core.PCL.dll

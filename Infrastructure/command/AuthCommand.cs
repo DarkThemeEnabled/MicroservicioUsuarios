@@ -1,10 +1,11 @@
 ﻿using Application.Interfaces;
 using Application.Request;
+using Application.Response;
+using Application.UseCases;
 using Domain.Entities;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,41 +17,55 @@ namespace Infrastructure.Command
     {
         private readonly UsuarioContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IPasswordService _passwordService;
 
-        public AuthCommand(UsuarioContext context, IConfiguration configuration)
+        public AuthCommand(UsuarioContext context, IConfiguration configuration, IPasswordService passwordService)
         {
             _context = context;
             _configuration = configuration;
+            _passwordService = passwordService;
         }
 
-        public async Task<AuthRequest> Registrar(RegisterRequest request)
+        public async Task<AuthResponse> Registrar(RegisterRequest request)
         {
             var usuario = new Usuario
             {
+                UsuarioId = Guid.NewGuid(),
                 Email = request.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.Password)
+                PasswordHash = _passwordService.HashPassword(request.Password)
             };
 
             _context.Usuarios.Add(usuario);
             await _context.SaveChangesAsync();
 
-            string token = GenerateJwtToken(usuario);
+            var jwtToken = GenerateJwtToken(usuario);
 
-            return new AuthRequest { Email = usuario.Email, Token = token };
+            return new AuthResponse
+            {
+                Token = jwtToken,
+                Mensaje = "Registro exitoso"
+            };
         }
 
-        public async Task<AuthRequest> Login(LoginRequest request)
+        public async Task<AuthResponse> Login(LoginRequest request)
         {
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Email == request.Email);
+            var usuario = await _context.Usuarios.SingleOrDefaultAsync(x => x.Email == request.Email);
 
-            if (usuario == null || !BCrypt.Net.BCrypt.Verify(request.Password, usuario.PasswordHash))
+            if (usuario == null || !_passwordService.VerifyPassword(request.Password, usuario.PasswordHash))  // Usa PasswordService para verificar la contraseña
             {
-                return null;
+                return new AuthResponse
+                {
+                    Mensaje = "Email o contraseña incorrecta"
+                };
             }
 
-            string token = GenerateJwtToken(usuario);
+            var jwtToken = GenerateJwtToken(usuario);
 
-            return new AuthRequest { Email = usuario.Email, Token = token };
+            return new AuthResponse
+            {
+                Token = jwtToken,
+                Mensaje = "Inicio de sesión exitoso"  // Puedes configurar el mensaje según sea necesario
+            };
         }
 
         private string GenerateJwtToken(Usuario usuario)

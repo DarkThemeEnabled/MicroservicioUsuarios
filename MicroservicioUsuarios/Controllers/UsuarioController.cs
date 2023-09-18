@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
+using Application.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace API.Controllers
 {
@@ -9,12 +11,14 @@ namespace API.Controllers
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioService _usuarioService;
+        private readonly IAuthCommand _authCommand;
         //private readonly IComentarioApi _comentarioApi;
         //private readonly IRecetaApi _recetaApi;
 
-        public UsuarioController(IUsuarioService usuarioService/*, IComentarioApi comentarioApi, IRecetaApi recetaApi*/)
+        public UsuarioController(IUsuarioService usuarioService, IAuthCommand authCommand/*, IComentarioApi comentarioApi, IRecetaApi recetaApi*/)
         {
             _usuarioService = usuarioService;
+            _authCommand = authCommand;
             //_comentarioApi = comentarioApi;
             //_recetaApi = recetaApi;
         }
@@ -51,18 +55,20 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("Registro")]
         public async Task<IActionResult> RegistrarUsuario([FromBody] UsuarioCrearRequest request)
         {
             try
             {
-                var usuario = await _usuarioService.RegistrarUsuario(request.Nombre, request.Apellido, request.Email, request.FotoPerfil);
+                var usuario = await _usuarioService.RegistrarUsuario(request.Nombre, request.Apellido, request.Email, request.Username, request.FotoPerfil, request.Password);
                 return CreatedAtAction(nameof(ObtenerUsuarioPorId), new { id = usuario.UsuarioId }, usuario);
+                // Verificar si se proporcionó una foto de perfil
             }
             catch (Exception ex)
             {
                 return BadRequest(new { message = ex.Message });
             }
+
         }
 
         [Authorize]
@@ -71,7 +77,7 @@ namespace API.Controllers
         {
             try
             {
-                var usuario = await _usuarioService.ActualizarUsuario(id, request.Nombre, request.Apellido, request.Email, request.FotoPerfil);
+                var usuario = await _usuarioService.ActualizarUsuario(id, request.Nombre, request.Apellido, request.Email, request.FotoPerfil, request.Password);
                 return Ok(usuario);
             }
             catch (Exception ex)
@@ -94,21 +100,52 @@ namespace API.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        {
+            try
+            {
+                // Autenticar al usuario utilizando el servicio AuthCommand
+                var authResponse = await _authCommand.Login(request);
+
+                if (authResponse == null)
+                {
+                    return BadRequest(new { message = "Email o contraseña incorrectos" });
+                }
+
+                return Ok(new { Token = authResponse.Token });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
     }
 
     public class UsuarioCrearRequest
     {
+        [Required]
         public required string Nombre { get; set; }
+        [Required]
         public required string Apellido { get; set; }
-        public required string Email { get; set; }
         public required string FotoPerfil { get; set; }
+        [Required]
+        public required string Username { get; set; }
+        [Required]
+        public required string Email { get; set; }
+        [Required]
+        public required string Password { get; set; }
     }
 
     public class UsuarioActualizarRequest
     {
+
         public required string Nombre { get; set; }
         public required string Apellido { get; set; }
         public required string Email { get; set; }
         public required string FotoPerfil { get; set; }
+        public required string Password { get; set; }
     }
 }
