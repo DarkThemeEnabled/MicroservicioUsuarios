@@ -56,17 +56,30 @@ namespace Infrastructure.Services
 
             return usuario;
         }
+        //public async Task EliminarUsuario(Guid usuarioId)
+        //{
+        //    // TODO: Implementar este método para obtener el ID del usuario autenticado
+        //    var usuarioAutenticadoId = ObtenerUsuarioAutenticadoId();
+
+        //    if (usuarioAutenticadoId != usuarioId)
+        //    {
+        //        throw new UnauthorizedAccessException("No tienes permiso para eliminar esta cuenta.");
+        //    }
+
+        //    var usuario = await _context.Usuarios.FindAsync(usuarioId);
+        //    if (usuario == null)
+        //    {
+        //        throw new KeyNotFoundException("Usuario no encontrado.");
+        //    }
+
+        //    _context.Usuarios.Remove(usuario);
+        //    await _context.SaveChangesAsync();
+        //}
+
         public async Task EliminarUsuario(Guid usuarioId)
         {
-            // TODO: Implementar este método para obtener el ID del usuario autenticado
-            var usuarioAutenticadoId = ObtenerUsuarioAutenticadoId();
-
-            if (usuarioAutenticadoId != usuarioId)
-            {
-                throw new UnauthorizedAccessException("No tienes permiso para eliminar esta cuenta.");
-            }
-
             var usuario = await _context.Usuarios.FindAsync(usuarioId);
+
             if (usuario == null)
             {
                 throw new KeyNotFoundException("Usuario no encontrado.");
@@ -75,8 +88,6 @@ namespace Infrastructure.Services
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
         }
-
-
         public async Task<Usuario> RegistrarUsuario(string nombre, string apellido, string email, string username, string fotoPerfil, string password)
         {
             // Verificar si el correo electrónico ya está en uso

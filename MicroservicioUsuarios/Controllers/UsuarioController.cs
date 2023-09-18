@@ -71,7 +71,7 @@ namespace API.Controllers
 
         }
 
-        [Authorize]
+
         [HttpPut("{id}")]
         public async Task<IActionResult> ActualizarUsuario(Guid id, [FromBody] UsuarioActualizarRequest request)
         {
@@ -86,14 +86,27 @@ namespace API.Controllers
             }
         }
 
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> EliminarUsuario(Guid id)
         {
             try
             {
                 await _usuarioService.EliminarUsuario(id);
-                return NoContent();
+                return Ok(new { message = "Usuario eliminado con éxito" });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new { message = "Usuario no encontrado" });
+            }
+            catch (UnauthorizedAccessException)
+            {
+                var response = new ContentResult
+                {
+                    StatusCode = StatusCodes.Status403Forbidden,
+                    Content = "No tienes permiso para eliminar esta cuenta",
+                    ContentType = "text/plain"
+                };
+                return response;
             }
             catch (Exception ex)
             {
