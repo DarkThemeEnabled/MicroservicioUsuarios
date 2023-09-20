@@ -1,6 +1,6 @@
 ﻿namespace Infrastructure.Client
 {
-    public class ComentarioApi //: IComentarioApi
+    public class ComentarioApi
     {
         private readonly HttpClient _httpClient;
 

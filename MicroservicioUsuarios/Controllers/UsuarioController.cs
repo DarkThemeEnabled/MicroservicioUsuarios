@@ -68,9 +68,7 @@ namespace API.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
-
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> ActualizarUsuario(Guid id, [FromBody] UsuarioActualizarRequest request)
@@ -127,7 +125,7 @@ namespace API.Controllers
                     return BadRequest(new { message = "Email o contraseña incorrectos" });
                 }
 
-                return Ok(new { Token = authResponse.Token });
+                return Ok(new { authResponse.Token });
             }
             catch (Exception ex)
             {

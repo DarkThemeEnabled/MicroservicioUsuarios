@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using System.Security.Cryptography;
-
+using System.Text;
 
 namespace Infrastructure.Services
 {
@@ -101,18 +101,9 @@ namespace Infrastructure.Services
             {
                 throw new Exception("El nombre de usuario ya está en uso.");
             }
-            // Crear un hash de la contraseña
-            var salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-            var hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: password,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
+
+            // Crear un hash de la contraseña usando SHA256
+            var hashedPassword = GetSHA256(password);
 
             // Asignar una foto de perfil por defecto si no se proporciona
             if (string.IsNullOrWhiteSpace(fotoPerfil))
@@ -137,15 +128,26 @@ namespace Infrastructure.Services
             return usuario;
         }
 
-        private Guid ObtenerUsuarioAutenticadoId()
+        private string GetSHA256(string str)
         {
-            var usuarioIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            if (usuarioIdClaim == null)
-            {
-                throw new UnauthorizedAccessException("No se pudo obtener el ID del usuario autenticado.");
-            }
-
-            return Guid.Parse(usuarioIdClaim.Value);
+            SHA256 sha256 = SHA256Managed.Create();
+            ASCIIEncoding encoding = new ASCIIEncoding();
+            byte[]? stream = null;
+            StringBuilder sb = new StringBuilder();
+            stream = sha256.ComputeHash(encoding.GetBytes(str));
+            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
+            return sb.ToString();
         }
+
+        //private Guid ObtenerUsuarioAutenticadoId()
+        //{
+        //    var usuarioIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+        //    if (usuarioIdClaim == null)
+        //    {
+        //        throw new UnauthorizedAccessException("No se pudo obtener el ID del usuario autenticado.");
+        //    }
+
+        //    return Guid.Parse(usuarioIdClaim.Value);
+        //}
     }
 }

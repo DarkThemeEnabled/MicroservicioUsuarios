@@ -27,9 +27,9 @@ namespace API.Middleware
                     tokenHandler.ValidateToken(token, new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Secret)),
-                        ValidateIssuer = false,
-                        ValidateAudience = false
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Key)),
+                        ValidateIssuer = true,
+                        ValidateAudience = true
                     }, out SecurityToken validatedToken);
                 }
                 catch (Exception)

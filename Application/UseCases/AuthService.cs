@@ -109,8 +109,7 @@ namespace Application.Services
                 {
                     var usuario = new UsuarioDTO
                     {
-                        Email = claimsPrincipal.FindFirst(ClaimTypes.Name)?.Value,
-                        // Otras propiedades del usuario que puedas necesitar
+                        Email = claimsPrincipal.FindFirst(ClaimTypes.Email)?.Value,
                     };
 
                     return usuario;
