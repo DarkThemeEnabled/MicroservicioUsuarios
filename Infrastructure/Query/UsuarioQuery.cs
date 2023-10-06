@@ -13,17 +13,17 @@ namespace Infrastructure.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Usuario>> ObtenerTodosLosUsuarios()
+        public async Task<IEnumerable<Usuario>> GetAll()
         {
             return await Task.FromResult(_context.Usuarios.ToList());
         }
 
-        public async Task<Usuario?> ObtenerUsuarioPorId(Guid usuarioId)
+        public async Task<Usuario> GetById(Guid usuarioId)
         {
             return await _context.Usuarios.FindAsync(usuarioId);
         }
 
-        public async Task<IEnumerable<Usuario>> ObtenerUsuariosPorNombre(string nombre)
+        public async Task<IEnumerable<Usuario>> GetByName(string nombre)
         {
             return await Task.FromResult(_context.Usuarios.Where(u => u.Nombre.Contains(nombre)).ToList());
         }

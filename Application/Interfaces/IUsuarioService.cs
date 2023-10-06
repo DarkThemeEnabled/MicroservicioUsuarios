@@ -5,12 +5,14 @@ namespace Application.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<IEnumerable<Usuario>> ObtenerTodosLosUsuarios();
-        Task<Usuario?> ObtenerUsuarioPorId(Guid usuarioId);
-        Task<IEnumerable<Usuario>> ObtenerUsuariosPorNombre(string nombre);
-        Task<Usuario> RegistrarUsuario(string nombre, string apellido, string username, string? fotoPerfil, string email, string password);
-        Task<Usuario> ActualizarUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password);
-        Task EliminarUsuario(Guid usuarioId);
+        Task<IEnumerable<Usuario>> GetAll();
+        Task<Usuario> GetById(Guid usuarioId);
+        Task<IEnumerable<Usuario>> GetByName(string nombre);
+        Task<Usuario> Register(string nombre, string apellido, string username, string? fotoPerfil, string email, string password);
+        Task<Usuario> UpdateUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password);
+        Task DeleteUsuario(Guid usuarioId);
+        Task<UsuarioDTO> ValidateUserCredentials(UsuarioLoginDTO userLoginDto);
+
     }
 }
 

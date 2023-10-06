@@ -1,50 +1,86 @@
 ﻿using Application.Interfaces;
 using Domain.DTO;
 using Domain.Entities;
+using Domain.Interfaces;
+using BCrypt.Net;
 
 namespace Infrastructure.Services
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly IUsuarioCommand _command;
         private readonly IUsuarioQuery _query;
+        private readonly IUsuarioCommand _command;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-        public UsuarioService(IUsuarioCommand command, IUsuarioQuery query)
+        public UsuarioService(IUsuarioQuery query, IUsuarioRepository usuarioRepository, IUsuarioCommand command)
         {
-            _command = command;
             _query = query;
+            _usuarioRepository = usuarioRepository;
+            _command = command;
         }
 
-        // Implementaciones de IUsuarioCommand
-        public Task<Usuario> RegistrarUsuario(string nombre, string apellido, string username, string fotoPerfil, string email, string password)
+        public Task<Usuario> Register(string nombre, string apellido, string username, string fotoPerfil, string email, string password)
         {
-            return _command.RegistrarUsuario(nombre, apellido, username, fotoPerfil, email, password);
+            return _command.Register(nombre, apellido, username, fotoPerfil, email, password);
         }
 
-        public Task<Usuario> ActualizarUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password)
+        public Task<Usuario> UpdateUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password)
         {
-            return _command.ActualizarUsuario(usuarioId, nombre, apellido, email, fotoPerfil, password);
+            return _command.UpdateUsuario(usuarioId, nombre, apellido, email, fotoPerfil, password);
         }
 
-        public Task EliminarUsuario(Guid usuarioId)
+        public Task DeleteUsuario(Guid usuarioId)
         {
-            return _command.EliminarUsuario(usuarioId);
+            return _command.DeleteUsuario(usuarioId);
         }
 
-        // Implementaciones de IUsuarioQuery
-        public Task<IEnumerable<Usuario>> ObtenerTodosLosUsuarios()
+        public Task<IEnumerable<Usuario>> GetAll()
         {
-            return _query.ObtenerTodosLosUsuarios();
+            return _query.GetAll();
         }
 
-        public Task<Usuario?> ObtenerUsuarioPorId(Guid usuarioId)
+        public Task<Usuario> GetById(Guid usuarioId)
         {
-            return _query.ObtenerUsuarioPorId(usuarioId);
+            return _query.GetById(usuarioId);
         }
 
-        public Task<IEnumerable<Usuario>> ObtenerUsuariosPorNombre(string nombre)
+        public Task<IEnumerable<Usuario>> GetByName(string nombre)
         {
-            return _query.ObtenerUsuariosPorNombre(nombre);
+            return _query.GetByName(nombre);
+        }
+
+        public async Task<UsuarioDTO> ValidateUserCredentials(UsuarioLoginDTO usuarioLoginDto)
+        {
+            var usuario = await _usuarioRepository.GetByEmail(usuarioLoginDto.Email);
+
+            if (usuario == null || !CheckPassword(usuarioLoginDto.Password, usuario.PasswordHash))
+            {
+                return null;
+            }
+
+            return new UsuarioDTO
+            {
+                // Map properties from Usuario to UsuarioDTO
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Username = usuario.Username,
+                Email = usuario.Email,
+                FotoPerfil = usuario.FotoPerfil
+            };
+        }
+
+        private bool CheckPassword(string inputPassword, string storedHash)
+        {
+            try
+            {
+                // Verifica la contraseña ingresada contra el hash almacenado
+                return BCrypt.Net.BCrypt.Verify(inputPassword, storedHash);
+            }
+            catch
+            {
+                // Log or handle error (like logging) as per your need
+                return false;
+            }
         }
     }
 }

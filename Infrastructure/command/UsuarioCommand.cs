@@ -21,41 +21,41 @@ namespace Infrastructure.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<Usuario> ActualizarUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password)
+        public async Task<Usuario> UpdateUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password)
         {
-            // Crear un hash de la contraseña
-            var salt = new byte[128 / 8];
-            using (var rng = RandomNumberGenerator.Create())
-            {
-                rng.GetBytes(salt);
-            }
-            var hashedPassword = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: password,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
-                iterationCount: 10000,
-                numBytesRequested: 256 / 8));
-
+            // Encuentra al usuario en la base de datos
             var usuario = await _context.Usuarios.FindAsync(usuarioId);
             if (usuario == null)
             {
                 throw new KeyNotFoundException("Usuario no encontrado.");
             }
 
+            // Asigna los nuevos valores a las propiedades del usuario
             usuario.Nombre = nombre;
             usuario.Apellido = apellido;
             usuario.Email = email;
             usuario.FotoPerfil = fotoPerfil;
-            if (usuario.PasswordHash != hashedPassword)  // Solo actualizamos la contraseña si ha cambiado
+
+            // Si la contraseña no es null o vacía, hasheala y actualízala
+            if (!string.IsNullOrEmpty(password))
             {
-                usuario.PasswordHash = hashedPassword;
+                // Hashing password using BCrypt
+                var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
+
+                // Solo actualizamos la contraseña si ha cambiado
+                if (usuario.PasswordHash != hashedPassword)
+                {
+                    usuario.PasswordHash = hashedPassword;
+                }
             }
 
+            // Actualiza el usuario y guarda los cambios en la base de datos
             _context.Usuarios.Update(usuario);
             await _context.SaveChangesAsync();
 
             return usuario;
         }
+
         //public async Task EliminarUsuario(Guid usuarioId)
         //{
         //    // TODO: Implementar este método para obtener el ID del usuario autenticado
@@ -76,7 +76,7 @@ namespace Infrastructure.Services
         //    await _context.SaveChangesAsync();
         //}
 
-        public async Task EliminarUsuario(Guid usuarioId)
+        public async Task DeleteUsuario(Guid usuarioId)
         {
             var usuario = await _context.Usuarios.FindAsync(usuarioId);
 
@@ -88,7 +88,7 @@ namespace Infrastructure.Services
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
         }
-        public async Task<Usuario> RegistrarUsuario(string nombre, string apellido, string email, string username, string fotoPerfil, string password)
+        public async Task<Usuario> Register(string nombre, string apellido, string email, string username, string fotoPerfil, string password)
         {
             // Verificar si el correo electrónico ya está en uso
             if (await _context.Usuarios.AnyAsync(u => u.Email == email))
@@ -102,8 +102,8 @@ namespace Infrastructure.Services
                 throw new Exception("El nombre de usuario ya está en uso.");
             }
 
-            // Crear un hash de la contraseña usando SHA256
-            var hashedPassword = GetSHA256(password);
+            // Crear un hash de la contraseña usando BCrypt
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
 
             // Asignar una foto de perfil por defecto si no se proporciona
             if (string.IsNullOrWhiteSpace(fotoPerfil))
@@ -128,26 +128,5 @@ namespace Infrastructure.Services
             return usuario;
         }
 
-        private string GetSHA256(string str)
-        {
-            SHA256 sha256 = SHA256Managed.Create();
-            ASCIIEncoding encoding = new ASCIIEncoding();
-            byte[]? stream = null;
-            StringBuilder sb = new StringBuilder();
-            stream = sha256.ComputeHash(encoding.GetBytes(str));
-            for (int i = 0; i < stream.Length; i++) sb.AppendFormat("{0:x2}", stream[i]);
-            return sb.ToString();
-        }
-
-        //private Guid ObtenerUsuarioAutenticadoId()
-        //{
-        //    var usuarioIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-        //    if (usuarioIdClaim == null)
-        //    {
-        //        throw new UnauthorizedAccessException("No se pudo obtener el ID del usuario autenticado.");
-        //    }
-
-        //    return Guid.Parse(usuarioIdClaim.Value);
-        //}
     }
 }

@@ -4,8 +4,8 @@ namespace Application.Interfaces
 {
     public interface IUsuarioQuery
     {
-        Task<IEnumerable<Usuario>> ObtenerTodosLosUsuarios();
-        Task<Usuario?> ObtenerUsuarioPorId(Guid usuarioId);
-        Task<IEnumerable<Usuario>> ObtenerUsuariosPorNombre(string nombre);
+        Task<IEnumerable<Usuario>> GetAll();
+        Task<Usuario> GetById(Guid usuarioId);
+        Task<IEnumerable<Usuario>> GetByName(string nombre);
     }
 }

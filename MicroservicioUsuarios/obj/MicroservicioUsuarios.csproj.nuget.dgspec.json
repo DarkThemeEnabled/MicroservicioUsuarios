@@ -44,13 +44,21 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "Portable.BouncyCastle": {
+            "BCrypt.Net-Next": {
               "target": "Package",
-              "version": "[1.9.0, )"
+              "version": "[4.0.3, )"
             },
-            "System.IdentityModel.Tokens.Jwt": {
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
               "target": "Package",
               "version": "[7.0.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Binder": {
+              "target": "Package",
+              "version": "[7.0.4, )"
             },
             "XAct.Core.PCL": {
               "target": "Package",
@@ -251,9 +259,9 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+            "Microsoft.AspNetCore.Authentication.Cookies": {
               "target": "Package",
-              "version": "[7.0.11, )"
+              "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
@@ -289,6 +297,18 @@
               "target": "Package",
               "version": "[13.0.3, )"
             },
+            "Serilog": {
+              "target": "Package",
+              "version": "[3.0.1, )"
+            },
+            "Serilog.Sinks.Console": {
+              "target": "Package",
+              "version": "[4.1.0, )"
+            },
+            "Serilog.Sinks.File": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
@@ -300,10 +320,6 @@
             "System.Diagnostics.Tools": {
               "target": "Package",
               "version": "[4.3.0, )"
-            },
-            "System.IdentityModel.Tokens.Jwt": {
-              "target": "Package",
-              "version": "[7.0.0, )"
             }
           },
           "imports": [

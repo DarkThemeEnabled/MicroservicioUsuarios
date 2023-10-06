@@ -13,7 +13,6 @@ C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\MicroservicioUsuarios.pdb
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Azure.Core.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Azure.Identity.dll
-C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.Data.SqlClient.dll
@@ -76,7 +75,6 @@ C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.pdb
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.genruntimeconfig.cache
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\ref\MicroservicioUsuarios.dll
-C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\BouncyCastle.Crypto.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Humanizer.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
@@ -176,3 +174,10 @@ D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\refint\Microserv
 D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.pdb
 D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.genruntimeconfig.cache
 D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\ref\MicroservicioUsuarios.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\BCrypt.Net-Next.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\MediatR.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\MediatR.Contracts.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Binder.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Serilog.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Serilog.Sinks.Console.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Serilog.Sinks.File.dll
