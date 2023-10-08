@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
+using Domain.DTO;
 using Domain.Entities;
 using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -13,9 +15,18 @@ namespace Infrastructure.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<Usuario>> GetAll()
+        public async Task<IEnumerable<UsuarioRegisterDTO>> GetAllRegistered()
         {
-            return await Task.FromResult(_context.Usuarios.ToList());
+            var usuarios = await _context.Usuarios.ToListAsync();
+            return usuarios.Select(u => new UsuarioRegisterDTO
+            {
+                Nombre = u.Nombre,
+                Apellido = u.Apellido,
+                Email = u.Email,
+                Username = u.Username,
+                FotoPerfil = u.FotoPerfil,
+                Password = u.PasswordHash
+            }).ToList();
         }
 
         public async Task<Usuario> GetById(Guid usuarioId)

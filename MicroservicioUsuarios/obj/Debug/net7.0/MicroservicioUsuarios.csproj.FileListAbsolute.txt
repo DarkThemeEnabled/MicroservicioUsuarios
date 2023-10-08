@@ -178,6 +178,5 @@ C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\MediatR.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\MediatR.Contracts.dll
 C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.Extensions.Configuration.Binder.dll
-C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Serilog.dll
-C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Serilog.Sinks.Console.dll
-C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Serilog.Sinks.File.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\System.Net.Http.Formatting.dll
+C:\Users\maria\Desktop\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll

@@ -5,7 +5,7 @@ namespace Application.Interfaces
 {
     public interface IUsuarioService
     {
-        Task<IEnumerable<Usuario>> GetAll();
+        Task<IEnumerable<UsuarioRegisterDTO>> GetAllRegistered();
         Task<Usuario> GetById(Guid usuarioId);
         Task<IEnumerable<Usuario>> GetByName(string nombre);
         Task<Usuario> Register(string nombre, string apellido, string username, string? fotoPerfil, string email, string password);

@@ -180,6 +180,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "Microsoft.AspNet.WebApi.Client": {
+              "target": "Package",
+              "version": "[5.2.9, )"
+            },
             "Microsoft.AspNetCore.Cryptography.KeyDerivation": {
               "target": "Package",
               "version": "[7.0.11, )"

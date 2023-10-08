@@ -18,7 +18,6 @@ namespace Infrastructure.Services
             _usuarioRepository = usuarioRepository;
             _command = command;
         }
-
         public Task<Usuario> Register(string nombre, string apellido, string username, string fotoPerfil, string email, string password)
         {
             return _command.Register(nombre, apellido, username, fotoPerfil, email, password);
@@ -34,9 +33,9 @@ namespace Infrastructure.Services
             return _command.DeleteUsuario(usuarioId);
         }
 
-        public Task<IEnumerable<Usuario>> GetAll()
+        public Task<IEnumerable<UsuarioRegisterDTO>> GetAllRegistered()
         {
-            return _query.GetAll();
+            return _query.GetAllRegistered();
         }
 
         public Task<Usuario> GetById(Guid usuarioId)

@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Domain.DTO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Infrastructure.Services;
 
 namespace API.Controllers
 {
@@ -11,40 +15,87 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
+        private readonly string _myToken;
         private readonly IUsuarioService _usuarioService;
+        private readonly HttpClient _httpClient;
 
-        // Inyección de dependencias a través del constructor
-        public UsuarioController(IUsuarioService usuarioService)
+        public UsuarioController(IConfiguration configuration, IUsuarioService usuarioService, IHttpClientFactory httpClientFactory)
         {
+            // Acceder al secret desde User Secrets
+            _myToken = configuration["Token"];
             _usuarioService = usuarioService;
+            _httpClient = httpClientFactory.CreateClient();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRegistered()
+        {
+            var usuarios = await _usuarioService.GetAllRegistered();
+            return Ok(usuarios);
         }
 
         [HttpPost("login")]
+        [ProducesResponseType(typeof(UsuarioLogueadoDTO), 200)]
+        [ProducesResponseType(typeof(BadRequest), 400)]
+        [ProducesResponseType(typeof(BadRequest), 409)]
         public async Task<IActionResult> Login([FromBody] UsuarioLoginDTO usuarioLoginDto)
         {
-            // Valida las credenciales del usuario utilizando el servicio inyectado
-            var user = await _usuarioService.ValidateUserCredentials(usuarioLoginDto);
-
-            // Si es válido, crea los claims y la cookie de autenticación
-            if (user != null)
+            try
             {
-                var claims = new List<Claim>
+                var user = await _usuarioService.ValidateUserCredentials(usuarioLoginDto);
+
+                if (user != null)
                 {
-                    new Claim(ClaimTypes.Email, user.Email),
-                    new Claim(ClaimTypes.Name, user.Nombre)
-                    //new Claim(ClaimTypes.Role, user.Rol)
-                };
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _myToken);
 
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                var authProperties = new AuthenticationProperties();
+                    try
+                    {
+                        var response = await _httpClient.GetAsync("https://localhost:7015/api/");
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var data = await response.Content.ReadAsStringAsync();
+                            // Procesar `data` si es necesario...
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Loggear o manejar la excepción según sea necesario...
+                    }
 
-                return Ok(); // O redirige según tu flujo de aplicación
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Email, user.Email),
+                        new Claim(ClaimTypes.Name, user.Nombre)
+                    };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties();
+
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                    var usuarioLogueado = new UsuarioLogueadoDTO
+                    {
+                        Nombre = user.Nombre,
+                        Apellido = user.Apellido,
+                        Email = user.Email,
+                        Username = user.Username,
+                        FotoPerfil = user.FotoPerfil
+                    };
+
+                    return Ok(usuarioLogueado);
+                }
+
+                return Unauthorized(new { Message = "Invalid username or password" });
             }
-
-            return Unauthorized();
+            catch (Exception ex)
+            {
+                // Asegúrate de loggear la excepción...
+                return StatusCode(500, new { Message = "An error occurred while processing your request." });
+            }
         }
+
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UsuarioRegisterDTO usuarioRegisterDto)
@@ -72,3 +123,15 @@ namespace API.Controllers
 
     }
 }
+
+// Utilizar _mySecretToken para hacer una solicitud HTTP a otra API
+
+//_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _myToken);
+
+//var response = await _httpClient.GetAsync("https://api.example.com/data");
+
+//if (response.IsSuccessStatusCode)
+//{
+//    var data = await response.Content.ReadAsStringAsync();
+//    // Utilizar `data` según sea necesario...
+//}

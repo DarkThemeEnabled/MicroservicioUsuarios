@@ -18,7 +18,7 @@ builder.Services.AddScoped<IUsuarioQuery, UsuarioQuery>();
 builder.Services.AddScoped<IUsuarioCommand, UsuarioCommand>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-
+builder.Services.AddHttpClient(); // Configuración de HttpClient
 //builder.Services.AddControllersWithViews();
 
 
