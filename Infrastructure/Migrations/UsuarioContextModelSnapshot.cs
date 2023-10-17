@@ -29,26 +29,21 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Apellido")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FotoPerfil")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nombre")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PasswordHash")
-                        .IsRequired()
+                    b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UsuarioId");

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {}
+    "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Application\\Application.csproj": {
+    "D:\\MicroservicioUsuarios\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Application\\Application.csproj",
+        "projectUniqueName": "D:\\MicroservicioUsuarios\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Application\\Application.csproj",
+        "projectPath": "D:\\MicroservicioUsuarios\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Application\\obj\\",
+        "outputPath": "D:\\MicroservicioUsuarios\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Domain\\Domain.csproj"
+              "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj"
               }
             }
           }
@@ -44,25 +44,21 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
-            "BCrypt.Net-Next": {
+            "Microsoft.AspNet.WebApi.Client": {
               "target": "Package",
-              "version": "[4.0.3, )"
+              "version": "[5.2.9, )"
             },
-            "MediatR": {
+            "Microsoft.IdentityModel.Tokens": {
               "target": "Package",
-              "version": "[12.1.1, )"
+              "version": "[7.0.2, )"
             },
-            "Microsoft.Extensions.Configuration.Abstractions": {
+            "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[13.0.3, )"
             },
-            "Microsoft.Extensions.Configuration.Binder": {
+            "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
-              "version": "[7.0.4, )"
-            },
-            "XAct.Core.PCL": {
-              "target": "Package",
-              "version": "[0.0.5014, )"
+              "version": "[7.0.2, )"
             }
           },
           "imports": [
@@ -81,18 +77,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
+    "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+        "projectUniqueName": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+        "projectPath": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Domain\\obj\\",
+        "outputPath": "D:\\MicroservicioUsuarios\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -120,6 +116,14 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.12, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -136,18 +140,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {
+    "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Infrastructure\\obj\\",
+        "outputPath": "D:\\MicroservicioUsuarios\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -164,8 +168,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Application\\Application.csproj": {
-                "projectPath": "C:\\Users\\maria\\Desktop\\MicroservicioUsuarios\\Application\\Application.csproj"
+              "D:\\MicroservicioUsuarios\\Application\\Application.csproj": {
+                "projectPath": "D:\\MicroservicioUsuarios\\Application\\Application.csproj"
               }
             }
           }
@@ -219,7 +223,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

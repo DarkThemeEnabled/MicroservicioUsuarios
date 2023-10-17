@@ -1,12 +1,11 @@
-﻿using Domain.DTO;
-using Domain.Entities;
+﻿using Domain.Entities;
 
 namespace Application.Interfaces
 {
     public interface IUsuarioQuery
     {
-        Task<IEnumerable<UsuarioRegisterDTO>> GetAllRegistered();
-        Task<Usuario> GetById(Guid usuarioId);
-        Task<IEnumerable<Usuario>> GetByName(string nombre);
+        List<Usuario> GetUsuarioList();
+        Usuario GetUsuarioById(Guid usuarioId);
+        Usuario UserLogin(string UserMail, string UserPassword);
     }
 }

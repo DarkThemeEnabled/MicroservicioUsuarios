@@ -1,11 +1,16 @@
+using Application.Common;
 using Application.Interfaces;
-using Domain.Interfaces;
+using Application.UseCase.Usuarios;
+using Application.UseCases;
+using Infrastructure.Command;
 using Infrastructure.Persistence;
-using Infrastructure.Repositories;
 using Infrastructure.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,10 +21,49 @@ builder.Services.AddDbContext<UsuarioContext>(options => options.UseSqlServer(co
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioQuery, UsuarioQuery>();
 builder.Services.AddScoped<IUsuarioCommand, UsuarioCommand>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+//builder.Services.AddScoped<IRecetaServiceUsuario, RecetaServiceUsuario>();
+
+//CORS deshabilitar
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
+//JWT CONFIGURATION
+var appSettingsSection = builder.Configuration.GetSection("AppSettings");
+builder.Services.Configure<AppSettings>(appSettingsSection);
+
+
+//firma
+var appSettings = appSettingsSection.Get<AppSettings>();
+var firma = appSettings.Secret;
+
+builder.Services.AddScoped<ITokenService, TokenService>(ServiceProvider =>
+{
+    return new TokenService(firma);
+});
+
+//agregado servicio de token
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, jwtBearerOptions =>
+{
+    jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters
+    {
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(appSettings.Secret)
+        ),
+        ValidIssuer = "localhost",
+        ValidAudience = "usuarios",
+    };
+});
+
 
 builder.Services.AddHttpClient(); // Configuración de HttpClient
-//builder.Services.AddControllersWithViews();
 
 
 // Add services to the container.
@@ -27,22 +71,39 @@ builder.Services.AddDataProtection();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Microservicio Usuarios", Version = "v1" });
+
+    // Configuración para JWT en Swagger
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Introduce el token JWT con 'Bearer ' al inicio",
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+
+
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddCookie(options =>
-                    {
-                        // Specify where to redirect un-authenticated users
-                        options.LoginPath = "/login";
-
-                        // Specify the name of the auth cookie.
-                        // ASP.NET picks a dumb name by default.
-                        options.Cookie.Name = "auth-cookie";
-                        options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
-                        options.SlidingExpiration = true;
-                        options.AccessDeniedPath = "/Forbidden/";
-                    });
 
 var app = builder.Build();
 
@@ -54,10 +115,12 @@ if (app.Environment.IsDevelopment())
 }
 
 
+app.UseCors("AllowAll");
 app.UseHttpsRedirection();
-app.UseCookiePolicy();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

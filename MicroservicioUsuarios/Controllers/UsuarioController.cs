@@ -1,13 +1,15 @@
 ﻿using Application.Interfaces;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using Domain.DTO;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using Application.Exceptions;
+using Application.Request;
+using Application.Response;
+using Microsoft.AspNetCore.Authorization;
+using BadRequest = Application.Response.BadRequest;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Infrastructure.Services;
+using ConflictException = Application.Exceptions.ConflictException;
+using NotFound = Application.Response.NotFound;
+using Conflict = Application.Response.Conflict;
+using Application.UseCases;
 
 namespace API.Controllers
 {
@@ -15,123 +17,146 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class UsuarioController : ControllerBase
     {
-        private readonly string _myToken;
         private readonly IUsuarioService _usuarioService;
-        private readonly HttpClient _httpClient;
+        private readonly ITokenService _tokenService;
 
-        public UsuarioController(IConfiguration configuration, IUsuarioService usuarioService, IHttpClientFactory httpClientFactory)
+        public UsuarioController(IUsuarioService usuarioService, ITokenService tokenService)
         {
-            // Acceder al secret desde User Secrets
-            _myToken = configuration["Token"];
             _usuarioService = usuarioService;
-            _httpClient = httpClientFactory.CreateClient();
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAllRegistered()
-        {
-            var usuarios = await _usuarioService.GetAllRegistered();
-            return Ok(usuarios);
+            _tokenService = tokenService;
         }
 
         [HttpPost("login")]
-        [ProducesResponseType(typeof(UsuarioLogueadoDTO), 200)]
-        [ProducesResponseType(typeof(BadRequest), 400)]
-        [ProducesResponseType(typeof(BadRequest), 409)]
-        public async Task<IActionResult> Login([FromBody] UsuarioLoginDTO usuarioLoginDto)
+        [ProducesResponseType(typeof(UsuarioTokenResponse), 200)]
+        public IActionResult LoginAuth(UsuarioLoginRequest userLogin)
         {
-            try
-            {
-                var user = await _usuarioService.ValidateUserCredentials(usuarioLoginDto);
+            var userResponse = _usuarioService.Authenticacion(userLogin);
 
-                if (user != null)
-                {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _myToken);
+            if (userResponse == null) { return BadRequest(new BadRequest { Message = "Usuario invalido" }); };
 
-                    try
-                    {
-                        var response = await _httpClient.GetAsync("https://localhost:7015/api/");
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var data = await response.Content.ReadAsStringAsync();
-                            // Procesar `data` si es necesario...
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        // Loggear o manejar la excepción según sea necesario...
-                    }
-
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Email, user.Email),
-                        new Claim(ClaimTypes.Name, user.Nombre)
-                    };
-
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    var authProperties = new AuthenticationProperties();
-
-                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
-
-                    var usuarioLogueado = new UsuarioLogueadoDTO
-                    {
-                        Nombre = user.Nombre,
-                        Apellido = user.Apellido,
-                        Email = user.Email,
-                        Username = user.Username,
-                        FotoPerfil = user.FotoPerfil
-                    };
-
-                    return Ok(usuarioLogueado);
-                }
-
-                return Unauthorized(new { Message = "Invalid username or password" });
-            }
-            catch (Exception ex)
-            {
-                // Asegúrate de loggear la excepción...
-                return StatusCode(500, new { Message = "An error occurred while processing your request." });
-            }
+            return Ok(userResponse);
         }
 
 
+        /// <summary>
+        /// devuelve un usuario
+        /// </summary>
+        //[Authorize]
+        [HttpGet("{usuarioId}")]
+        [ProducesResponseType(typeof(UsuarioResponse), 200)]
+        public IActionResult GetUsuarioById(string usuarioId)
+        {
+            Guid usuarioIdBuscar = new Guid();
 
+            if (!Guid.TryParse(usuarioId, out usuarioIdBuscar))
+            {
+                return new JsonResult(new BadRequest { Message = "El formato del id no es valido." });
+            }
+
+            var result = _usuarioService.GetUsuarioById(usuarioIdBuscar);
+
+            if (result == null)
+            {
+                return NotFound(new BadRequest { Message = "No se encontraró el usuario con ese id." });
+            }
+
+            return new JsonResult(result);
+        }
+
+        /// <summary>
+        /// crea un usuario nuevo
+        /// </summary>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UsuarioRegisterDTO usuarioRegisterDto)
+        [ProducesResponseType(typeof(UsuarioResponse), 201)]
+        [ProducesResponseType(typeof(BadRequest), 400)]
+        public IActionResult CreateUsuario(UsuarioPasswordRequest request)
+        {
+            UsuarioResponse result = null;
+
+            try
+            {
+                result = _usuarioService.CreateUsuario(request);
+            }
+            catch (ExistingMailException e)
+            {
+                return new JsonResult(new BadRequest { Message = e.Message }) { StatusCode = 409 };
+            }
+            catch (PasswordFormatException e)
+            {
+                return new JsonResult(new BadRequest { Message = e.Message }) { StatusCode = 409 };
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new BadRequest { Message = "Puede que existan campos invalidos" }) { StatusCode = 400 };
+            }
+
+            return new JsonResult(result);
+        }
+
+        /// <summary>
+        /// modifica un usuario existente
+        /// </summary>
+        [Authorize]
+        [HttpPut("{usuarioId}")]
+        [ProducesResponseType(typeof(UsuarioResponse), 200)]
+        [ProducesResponseType(typeof(BadRequest), 400)]
+        [ProducesResponseType(typeof(NotFound), 404)]
+        public IActionResult UpdateUsuario(Guid usuarioId, UsuarioRequest request)
+        {
+            // Obtener el token desde el encabezado de la solicitud
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+
+            // Verificar si el token ha caducado
+            if (_tokenService.IsTokenExpired(token))
+            {
+                return Unauthorized("El token ha caducado.");
+            }
+
+            // Resto de la lógica de tu método...
+            UsuarioResponse result = null;
+
+            try
+            {
+                result = _usuarioService.UpdateUsuario(usuarioId, request);
+            }
+            catch (InvalidDataException ex)
+            {
+                return BadRequest(new BadRequest { Message = ex.Message });
+            }
+
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
+
+        /// <summary>
+        /// elimina un usuario existente
+        /// </summary>
+        [Authorize]
+        [HttpDelete("{usuarioId}")]
+        [ProducesResponseType(typeof(UsuarioDeleteResponse), 200)]
+        [ProducesResponseType(typeof(BadRequest), 400)]
+        [ProducesResponseType(typeof(NotFound), 404)]
+        [ProducesResponseType(typeof(Conflict), 409)]
+        public IActionResult DeleteUsuario(Guid usuarioId)
         {
             try
             {
-                // Crear el usuario
-                var usuario = await _usuarioService.Register(
-                    usuarioRegisterDto.Nombre,
-                    usuarioRegisterDto.Apellido,
-                    usuarioRegisterDto.Email,
-                    usuarioRegisterDto.Username,
-                    usuarioRegisterDto.FotoPerfil,
-                    usuarioRegisterDto.Password);
-
-                // Si el usuario se crea con éxito, retorna un 201 Created
-                return CreatedAtAction(nameof(Register), new { id = usuario.UsuarioId }, usuario);
+                var result = _usuarioService.RemoveUsuario(usuarioId);
+                return Ok(result);
             }
-            catch (Exception ex)
+            catch (UserNotFoundException)
             {
-                // Si hay un error (por ejemplo, el email ya está en uso), retorna un 400 Bad Request
-                return BadRequest(new { message = ex.Message });
+                // Considera registrar el error (e.Message) aquí para fines de depuración.
+                return BadRequest(new BadRequest { Message = "Hubo un problema al eliminar el usuario." });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new NotFound { Message = "Ese usuario no existe" });
+            }
+            catch (ConflictException ex)
+            {
+                return StatusCode(409, new Conflict { Message = ex.Message });
             }
         }
-
     }
 }
-
-// Utilizar _mySecretToken para hacer una solicitud HTTP a otra API
-
-//_httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _myToken);
-
-//var response = await _httpClient.GetAsync("https://api.example.com/data");
-
-//if (response.IsSuccessStatusCode)
-//{
-//    var data = await response.Content.ReadAsStringAsync();
-//    // Utilizar `data` según sea necesario...
-//}

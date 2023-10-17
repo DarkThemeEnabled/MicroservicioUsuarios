@@ -2,7 +2,6 @@
 using Domain.DTO;
 using Domain.Entities;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Services
 {
@@ -15,28 +14,24 @@ namespace Infrastructure.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<UsuarioRegisterDTO>> GetAllRegistered()
+        public Usuario UserLogin(string UserMail, string UserPassword)
         {
-            var usuarios = await _context.Usuarios.ToListAsync();
-            return usuarios.Select(u => new UsuarioRegisterDTO
-            {
-                Nombre = u.Nombre,
-                Apellido = u.Apellido,
-                Email = u.Email,
-                Username = u.Username,
-                FotoPerfil = u.FotoPerfil,
-                Password = u.PasswordHash
-            }).ToList();
+            var usuario = _context.Usuarios.Where(u => u.Email == UserMail && u.Password == UserPassword).FirstOrDefault();
+            if (usuario == null) { return null; }
+
+            return usuario;
         }
 
-        public async Task<Usuario> GetById(Guid usuarioId)
+        public Usuario GetUsuarioById(Guid usuarioId)
         {
-            return await _context.Usuarios.FindAsync(usuarioId);
+            var usuario = _context.Usuarios.FirstOrDefault(x => x.UsuarioId == usuarioId);
+            return usuario;
         }
 
-        public async Task<IEnumerable<Usuario>> GetByName(string nombre)
+        public List<Usuario> GetUsuarioList()
         {
-            return await Task.FromResult(_context.Usuarios.Where(u => u.Nombre.Contains(nombre)).ToList());
+            List<Usuario> usuarioList = _context.Usuarios.ToList();
+            return usuarioList;
         }
     }
 }

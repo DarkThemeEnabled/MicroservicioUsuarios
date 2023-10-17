@@ -4,7 +4,7 @@ namespace Application.Interfaces
 {
     public interface IComentarioApi
     {
-        Task<IEnumerable<ComentarioDTO>> GetComentarios();
-        Task<ComentarioDTO> GetComentarioById(int id);
+        IEnumerable<ComentarioDTO> GetComentarios();
+        ComentarioDTO GetComentarioById(int id);
     }
 }

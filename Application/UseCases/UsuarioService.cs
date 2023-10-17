@@ -1,85 +1,124 @@
 ﻿using Application.Interfaces;
-using Domain.DTO;
+using Application.Request;
+using Application.Response;
 using Domain.Entities;
-using Domain.Interfaces;
-using BCrypt.Net;
+using Application.Exceptions;
+using Application.Helpers;
 
-namespace Infrastructure.Services
+namespace Application.UseCase.Usuarios
 {
     public class UsuarioService : IUsuarioService
     {
-        private readonly IUsuarioQuery _query;
         private readonly IUsuarioCommand _command;
-        private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IUsuarioQuery _query;
+        private readonly ITokenService _tokenService;
 
-        public UsuarioService(IUsuarioQuery query, IUsuarioRepository usuarioRepository, IUsuarioCommand command)
+        public UsuarioService(IUsuarioCommand command, IUsuarioQuery query, ITokenService tokenService)
         {
-            _query = query;
-            _usuarioRepository = usuarioRepository;
             _command = command;
-        }
-        public Task<Usuario> Register(string nombre, string apellido, string username, string fotoPerfil, string email, string password)
-        {
-            return _command.Register(nombre, apellido, username, fotoPerfil, email, password);
+            _query = query;
+            _tokenService = tokenService;
         }
 
-        public Task<Usuario> UpdateUsuario(Guid usuarioId, string nombre, string apellido, string email, string fotoPerfil, string password)
+        public UsuarioTokenResponse Authenticacion(UsuarioLoginRequest request)
         {
-            return _command.UpdateUsuario(usuarioId, nombre, apellido, email, fotoPerfil, password);
+            UsuarioResponse userLogged = new UsuarioResponse();
+
+            string password = Encrypt.GetSHA256(request.Password);
+            var usuarioEncontrado = _query.UserLogin(request.Email, password);
+
+            if (usuarioEncontrado == null) return null;
+
+            return _tokenService.GenerateToken(usuarioEncontrado);
         }
 
-        public Task DeleteUsuario(Guid usuarioId)
+        public UsuarioResponse CreateUsuario(UsuarioPasswordRequest request)
         {
-            return _command.DeleteUsuario(usuarioId);
-        }
+            string caracteresEspeciales = "!\"·$%&/()=¿¡?'_:;,|@#€*+.";
+            bool existenCaracteresEspeciales = (caracteresEspeciales.Intersect(request.Password).Count() > 0);
 
-        public Task<IEnumerable<UsuarioRegisterDTO>> GetAllRegistered()
-        {
-            return _query.GetAllRegistered();
-        }
-
-        public Task<Usuario> GetById(Guid usuarioId)
-        {
-            return _query.GetById(usuarioId);
-        }
-
-        public Task<IEnumerable<Usuario>> GetByName(string nombre)
-        {
-            return _query.GetByName(nombre);
-        }
-
-        public async Task<UsuarioDTO> ValidateUserCredentials(UsuarioLoginDTO usuarioLoginDto)
-        {
-            var usuario = await _usuarioRepository.GetByEmail(usuarioLoginDto.Email);
-
-            if (usuario == null || !CheckPassword(usuarioLoginDto.Password, usuario.PasswordHash))
+            if (!existenCaracteresEspeciales)
             {
-                return null;
+                throw new PasswordFormatException("La password requiere al menos un caracter especial");
             }
 
-            return new UsuarioDTO
+            if (request.Password.Length < 8)
             {
-                // Map properties from Usuario to UsuarioDTO
+                throw new PasswordFormatException("La password requiere al menos 8 caracteres.");
+            }
+
+            var usuario = new Usuario
+            {
+                Nombre = request.Nombre,
+                Apellido = request.Apellido,
+                Username = request.Username,
+                Email = request.Email,
+                FotoPerfil = request.FotoPerfil,
+                Password = Encrypt.GetSHA256(request.Password)
+            };
+
+            _command.CreateUsuario(usuario);
+
+            return new UsuarioResponse
+            {
+                UsuarioId = usuario.UsuarioId,
+                Nombre = usuario.Nombre,
+                Apellido = usuario.Apellido,
+                Username = usuario.Username, 
+                Email = usuario.Email, 
+                FotoPerfil = usuario.FotoPerfil
+            };
+        }
+
+        public UsuarioResponse GetUsuarioById(Guid usuarioId)
+        {
+            var usuario = _query.GetUsuarioById(usuarioId);
+
+            if (usuario != null)
+            {
+                return new UsuarioResponse
+                {
+                    UsuarioId = usuario.UsuarioId,
+                    Nombre = usuario.Nombre,
+                    Apellido = usuario.Apellido,
+                    Username = usuario.Username,
+                    Email = usuario.Email,
+                    FotoPerfil = usuario.FotoPerfil
+                };
+            }
+            return null;
+        }
+
+        public List<Usuario> GetUsuarioList()
+        {
+            return _query.GetUsuarioList();
+        }
+
+        public UsuarioDeleteResponse RemoveUsuario(Guid usuarioId)
+        {
+            var usuario = _command.RemoveUsuario(usuarioId);
+
+            return new UsuarioDeleteResponse
+            {
+                UsuarioId = usuario.UsuarioId,
+                Username = usuario.Username,
+                Email = usuario.Email,
+            };
+        }
+
+        public UsuarioResponse UpdateUsuario(Guid usuarioId, UsuarioRequest request)
+        {
+            var usuario = _command.UpdateUsuario(usuarioId, request);
+
+            return new UsuarioResponse
+            {
+                UsuarioId = usuario.UsuarioId,
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
                 Username = usuario.Username,
                 Email = usuario.Email,
                 FotoPerfil = usuario.FotoPerfil
             };
-        }
-
-        private bool CheckPassword(string inputPassword, string storedHash)
-        {
-            try
-            {
-                // Verifica la contraseña ingresada contra el hash almacenado
-                return BCrypt.Net.BCrypt.Verify(inputPassword, storedHash);
-            }
-            catch
-            {
-                // Log or handle error (like logging) as per your need
-                return false;
-            }
         }
     }
 }
