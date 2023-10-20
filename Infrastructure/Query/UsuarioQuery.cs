@@ -28,6 +28,11 @@ namespace Infrastructure.Services
             return usuario;
         }
 
+        public Usuario GetUsuarioByUsername(string username)
+        {
+            var usuario = _context.Usuarios.FirstOrDefault(x => x.Username == username);
+            return usuario;
+        }
         public List<Usuario> GetUsuarioList()
         {
             List<Usuario> usuarioList = _context.Usuarios.ToList();

@@ -78,7 +78,6 @@ namespace Application.UseCase.Usuarios
             {
                 return new UsuarioResponse
                 {
-                    UsuarioId = usuario.UsuarioId,
                     Nombre = usuario.Nombre,
                     Apellido = usuario.Apellido,
                     Username = usuario.Username,
@@ -88,7 +87,23 @@ namespace Application.UseCase.Usuarios
             }
             return null;
         }
+        public UsernameResponse GetUsuarioByUsername(string username)
+        {
+            var usuario = _query.GetUsuarioByUsername(username);
 
+            if (usuario != null)
+            {
+                return new UsernameResponse
+                {
+                    Nombre = usuario.Nombre,
+                    Apellido = usuario.Apellido,
+                    Username = usuario.Username,
+                    Email = usuario.Email,
+                    FotoPerfil = usuario.FotoPerfil
+                };
+            }
+            return null;
+        }
         public List<Usuario> GetUsuarioList()
         {
             return _query.GetUsuarioList();
@@ -106,13 +121,12 @@ namespace Application.UseCase.Usuarios
             };
         }
 
-        public UsuarioResponse UpdateUsuario(Guid usuarioId, UsuarioRequest request)
+        public UsuarioUpdateResponse UpdateUsuario(Guid usuarioId, UsuarioRequest request)
         {
             var usuario = _command.UpdateUsuario(usuarioId, request);
 
-            return new UsuarioResponse
+            return new UsuarioUpdateResponse
             {
-                UsuarioId = usuario.UsuarioId,
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
                 Username = usuario.Username,

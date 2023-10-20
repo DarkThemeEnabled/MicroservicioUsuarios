@@ -1,15 +1,18 @@
 using Application.Common;
+using Application.Helpers;
 using Application.Interfaces;
 using Application.UseCase.Usuarios;
 using Application.UseCases;
+using Domain.IRepository;
+using Infraestructure.Repository;
 using Infrastructure.Command;
+using Infrastructure.Events;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +24,12 @@ builder.Services.AddDbContext<UsuarioContext>(options => options.UseSqlServer(co
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioQuery, UsuarioQuery>();
 builder.Services.AddScoped<IUsuarioCommand, UsuarioCommand>();
-//builder.Services.AddScoped<IRecetaServiceUsuario, RecetaServiceUsuario>();
+builder.Services.AddScoped<IBlacklistTokenCommandHandler, BlacklistTokenCommandHandler>();
+builder.Services.AddScoped<IBlacklistedTokenRepository, BlacklistedTokenInMemoryRepository>();
+builder.Services.AddScoped<IEventPublisher, EventPublisher>();
+
+
+//builder.Services.AddScoped<IRecetaService, RecetaService>();
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>
@@ -104,6 +112,14 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
+// Configura los servicios
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(1);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -121,7 +137,30 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseSession();
 
 app.MapControllers();
+
+// Endpoint para establecer la preferencia de tema del usuario
+//app.MapPost("/set-theme", (HttpContext context, string theme) =>
+//{
+//    if (theme == "dark" || theme == "light") // Validar entrada
+//    {
+//        context.Session.SetString("userTheme", theme);
+//        return Results.Ok(new { Message = $"Tema {theme} establecido correctamente." });
+//    }
+//    return Results.BadRequest(new { Message = "Tema no válido." });
+//});
+
+// Endpoint para obtener la preferencia de tema del usuario
+//app.MapGet("/get-theme", (HttpContext context) =>
+//{
+//    var userTheme = context.Session.GetString("userTheme");
+//    if (string.IsNullOrEmpty(userTheme))
+//    {
+//        return Results.NotFound(new { Message = "Tema no establecido para el usuario." });
+//    }
+//    return Results.Ok(new { Theme = userTheme });
+//});
 
 app.Run();

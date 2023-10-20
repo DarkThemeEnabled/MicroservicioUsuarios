@@ -180,3 +180,6 @@ D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\refint\Microserv
 D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.pdb
 D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\MicroservicioUsuarios.genruntimeconfig.cache
 D:\MicroservicioUsuarios\MicroservicioUsuarios\obj\Debug\net7.0\ref\MicroservicioUsuarios.dll
+D:\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.AspNet.Identity.Core.dll
+D:\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Microsoft.Owin.dll
+D:\MicroservicioUsuarios\MicroservicioUsuarios\bin\Debug\net7.0\Owin.dll

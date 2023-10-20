@@ -6,6 +6,7 @@ namespace Application.Interfaces
     {
         List<Usuario> GetUsuarioList();
         Usuario GetUsuarioById(Guid usuarioId);
+        Usuario GetUsuarioByUsername(string username);
         Usuario UserLogin(string UserMail, string UserPassword);
     }
 }

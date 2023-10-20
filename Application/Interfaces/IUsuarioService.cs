@@ -9,9 +9,10 @@ namespace Application.Interfaces
         UsuarioTokenResponse Authenticacion(UsuarioLoginRequest request);
         UsuarioResponse CreateUsuario(UsuarioPasswordRequest request);
         UsuarioDeleteResponse RemoveUsuario(Guid usuarioId);
-        UsuarioResponse UpdateUsuario(Guid usuarioId, UsuarioRequest request);
+        UsuarioUpdateResponse UpdateUsuario(Guid usuarioId, UsuarioRequest request);
         List<Usuario> GetUsuarioList();
         UsuarioResponse GetUsuarioById(Guid usuarioId);
+        UsernameResponse GetUsuarioByUsername(string username);
     }
 }
 
