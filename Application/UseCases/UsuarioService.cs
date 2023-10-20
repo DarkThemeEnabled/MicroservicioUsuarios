@@ -1,9 +1,9 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Helpers;
+using Application.Interfaces;
 using Application.Request;
 using Application.Response;
 using Domain.Entities;
-using Application.Exceptions;
-using Application.Helpers;
 
 namespace Application.UseCase.Usuarios
 {
@@ -64,8 +64,8 @@ namespace Application.UseCase.Usuarios
                 UsuarioId = usuario.UsuarioId,
                 Nombre = usuario.Nombre,
                 Apellido = usuario.Apellido,
-                Username = usuario.Username, 
-                Email = usuario.Email, 
+                Username = usuario.Username,
+                Email = usuario.Email,
                 FotoPerfil = usuario.FotoPerfil
             };
         }

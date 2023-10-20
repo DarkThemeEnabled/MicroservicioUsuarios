@@ -1,19 +1,15 @@
+using System.Text;
 using Application.Common;
-using Application.Helpers;
 using Application.Interfaces;
 using Application.UseCase.Usuarios;
 using Application.UseCases;
-using Domain.IRepository;
-using Infraestructure.Repository;
 using Infrastructure.Command;
-using Infrastructure.Events;
 using Infrastructure.Persistence;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,9 +20,6 @@ builder.Services.AddDbContext<UsuarioContext>(options => options.UseSqlServer(co
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IUsuarioQuery, UsuarioQuery>();
 builder.Services.AddScoped<IUsuarioCommand, UsuarioCommand>();
-builder.Services.AddScoped<IBlacklistTokenCommandHandler, BlacklistTokenCommandHandler>();
-builder.Services.AddScoped<IBlacklistedTokenRepository, BlacklistedTokenInMemoryRepository>();
-builder.Services.AddScoped<IEventPublisher, EventPublisher>();
 
 
 //builder.Services.AddScoped<IRecetaService, RecetaService>();
@@ -112,15 +105,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 
-// Configura los servicios
-builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(1);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -136,8 +120,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseSession();
 
 app.MapControllers();
 

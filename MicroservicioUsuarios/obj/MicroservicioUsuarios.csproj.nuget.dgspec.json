@@ -281,10 +281,6 @@
               "target": "Package",
               "version": "[7.0.11, )"
             },
-            "Microsoft.Owin": {
-              "target": "Package",
-              "version": "[4.2.2, )"
-            },
             "NSwag.Annotations": {
               "target": "Package",
               "version": "[13.20.0, )"

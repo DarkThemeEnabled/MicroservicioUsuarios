@@ -84,7 +84,7 @@ namespace Infrastructure.Command
             }
 
             var usuarioToUpdate = _context.Usuarios.FirstOrDefault(u => u.UsuarioId == usuarioId);
-            
+
             if (usuarioToUpdate == null)
             {
                 throw new KeyNotFoundException("Usuario no encontrado");
