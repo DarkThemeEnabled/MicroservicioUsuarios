@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Application.Exceptions;
+using Application.Interfaces;
 using Domain.DTO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

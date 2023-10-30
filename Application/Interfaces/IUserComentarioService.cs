@@ -4,8 +4,9 @@ namespace Application.Interfaces
 {
     public interface IUserComentarioService
     {
-        dynamic GetByID(int id);
-        dynamic GetComentarios();
+        ComentarioDTO GetByID(int id);
+        //dynamic GetComentarios();
+        string GetComentarioReceta(int id);
         void CreateComentario(ComentarioDTO comentarioData, string userToken);
     }
 }
