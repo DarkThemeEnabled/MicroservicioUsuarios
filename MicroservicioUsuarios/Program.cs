@@ -60,6 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         ),
         ValidIssuer = "localhost",
         ValidAudience = "usuarios",
+        ValidateLifetime = true
     };
 });
 

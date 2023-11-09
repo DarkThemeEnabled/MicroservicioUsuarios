@@ -8,7 +8,7 @@ namespace Application.Interfaces
     {
         UsuarioTokenResponse Authenticacion(UsuarioLoginRequest request);
         UsuarioResponse CreateUsuario(UsuarioPasswordRequest request);
-        UsuarioDeleteResponse RemoveUsuario(Guid usuarioId);
+        // UsuarioDeleteResponse RemoveUsuario(Guid usuarioId);
         UsuarioUpdateResponse UpdateUsuario(Guid usuarioId, UsuarioRequest request);
         List<Usuario> GetUsuarioList();
         UsuarioResponse GetUsuarioById(Guid usuarioId);

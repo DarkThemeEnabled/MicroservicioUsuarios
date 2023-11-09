@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj": {}
+    "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
+    "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "D:\\MicroservicioUsuarios\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -63,7 +63,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

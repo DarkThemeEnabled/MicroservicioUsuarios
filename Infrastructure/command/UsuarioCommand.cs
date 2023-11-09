@@ -46,19 +46,19 @@ namespace Infrastructure.Command
             return usuario;
         }
 
-        public Usuario RemoveUsuario(Guid usuarioId)
-        {
-            var removeUsuario = _context.Usuarios.Single(x => x.UsuarioId == usuarioId);
+        //public Usuario RemoveUsuario(Guid usuarioId)
+        //{
+        //    var removeUsuario = _context.Usuarios.Single(x => x.UsuarioId == usuarioId);
 
-            if (removeUsuario == null)
-            {
-                throw new KeyNotFoundException("Usuario no encontrado.");
-            }
+        //    if (removeUsuario == null)
+        //    {
+        //        throw new KeyNotFoundException("Usuario no encontrado.");
+        //    }
 
-            _context.Remove(removeUsuario);
-            _context.SaveChanges();
-            return removeUsuario;
-        }
+        //    _context.Remove(removeUsuario);
+        //    _context.SaveChanges();
+        //    return removeUsuario;
+        //}
 
         public Usuario UpdateUsuario(Guid usuarioId, UsuarioRequest request)
         {

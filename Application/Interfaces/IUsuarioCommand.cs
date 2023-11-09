@@ -6,7 +6,7 @@ namespace Application.Interfaces
     public interface IUsuarioCommand
     {
         Usuario CreateUsuario(Usuario usuario);
-        Usuario RemoveUsuario(Guid usuarioId);
+        // Usuario RemoveUsuario(Guid usuarioId);
         Usuario UpdateUsuario(Guid usuarioId, UsuarioRequest request);
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {}
+    "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\MicroservicioUsuarios\\Application\\Application.csproj": {
+    "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\MicroservicioUsuarios\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "D:\\MicroservicioUsuarios\\Application\\Application.csproj",
+        "projectPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "D:\\MicroservicioUsuarios\\Application\\obj\\",
+        "outputPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj"
+              "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj"
               }
             }
           }
@@ -77,18 +77,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
+    "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "D:\\MicroservicioUsuarios\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -140,18 +140,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "D:\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "D:\\MicroservicioUsuarios\\Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\maria\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -168,8 +168,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\MicroservicioUsuarios\\Application\\Application.csproj": {
-                "projectPath": "D:\\MicroservicioUsuarios\\Application\\Application.csproj"
+              "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Application\\Application.csproj"
               }
             }
           }
@@ -223,7 +223,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

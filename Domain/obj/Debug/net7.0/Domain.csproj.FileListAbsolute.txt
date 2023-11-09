@@ -22,3 +22,16 @@ D:\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.pdb
 D:\MicroservicioUsuarios\Domain\obj\Debug\net7.0\ref\Domain.dll
 D:\MicroservicioUsuarios\Domain\bin\Debug\net7.0\Domain.runtimeconfig.json
 D:\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.genruntimeconfig.cache
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\bin\Debug\net7.0\Domain.deps.json
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\bin\Debug\net7.0\Domain.runtimeconfig.json
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\bin\Debug\net7.0\Domain.dll
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\bin\Debug\net7.0\Domain.pdb
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.AssemblyInfoInputs.cache
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.AssemblyInfo.cs
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.csproj.CoreCompileInputs.cache
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.dll
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\refint\Domain.dll
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.pdb
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\Domain.genruntimeconfig.cache
+C:\Users\maria\Desktop\Proyecto Software\Grupal\MicroservicioUsuarios\Domain\obj\Debug\net7.0\ref\Domain.dll

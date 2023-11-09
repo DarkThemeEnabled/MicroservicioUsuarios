@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IBa7351CrWqL7jzWyDnGh3NafhGLZoD7136ZmDcO8CXdwuZpSlFbFMsBBF6m5CnwnhYy0al4OGFqCaG0bAh/jw==",
+  "dgSpecHash": "e/+KIhBnuIXYkE4RsLTweQ6Se3R0QA5n1lCAKLCKCX2vkWnpP8xdDtGEdRqSy4lOcEqOiWfsXxQoqOAH8Fd6jg==",
   "success": true,
-  "projectFilePath": "D:\\MicroservicioUsuarios\\Domain\\Domain.csproj",
+  "projectFilePath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maria\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\maria\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.12\\microsoft.entityframeworkcore.7.0.12.nupkg.sha512",

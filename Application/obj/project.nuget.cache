@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "XWeCSuSifBG7XTL8QvMeLlgeYAIxtXU3M4PsUnCY3rsc4nPHCms4i+OflJYhbNZ0KyDQ9i3iVbK7S4hbYAWk5Q==",
+  "dgSpecHash": "M8TkM7Q+c0ra6ehJ5BfPyJZsMMBk7sHTsbr7wZ1PiIEwNsEBvLkL/AfedErFOnvnks4WWs7MphoMoAw9Q3zXBg==",
   "success": true,
-  "projectFilePath": "D:\\MicroservicioUsuarios\\Application\\Application.csproj",
+  "projectFilePath": "C:\\Users\\maria\\Desktop\\Proyecto Software\\Grupal\\MicroservicioUsuarios\\Application\\Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maria\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.9\\microsoft.aspnet.webapi.client.5.2.9.nupkg.sha512",
     "C:\\Users\\maria\\.nuget\\packages\\microsoft.identitymodel.abstractions\\7.0.2\\microsoft.identitymodel.abstractions.7.0.2.nupkg.sha512",

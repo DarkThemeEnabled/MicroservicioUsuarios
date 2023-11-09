@@ -39,25 +39,6 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// elimina un usuario existente
-        /// </summary>
-        [Authorize]
-        [HttpPost("logout")]
-        [ProducesResponseType(200)]
-        [ProducesResponseType(typeof(BadRequest), 400)]
-        public IActionResult Logout(Guid usuarioId)
-        {
-            var usuarioResponse = _usuarioService.GetUsuarioById(usuarioId);
-
-            if (usuarioResponse == null)
-            {
-                throw new UserNotFoundException("Usuario no encontrado.");
-            }
-
-            return Ok(new { Message = "Logout exitoso." });
-        }
-
-        /// <summary>
         /// crea un usuario nuevo
         /// </summary>
         [HttpPost("register")]
@@ -134,27 +115,20 @@ namespace API.Controllers
         /// modifica un usuario existente
         /// </summary>
         [Authorize]
-        [HttpPut("{usuarioId}")]
+        [HttpPut]
         [ProducesResponseType(typeof(UsuarioUpdateResponse), 200)]
         [ProducesResponseType(typeof(BadRequest), 400)]
         [ProducesResponseType(typeof(NotFound), 404)]
-        public IActionResult UpdateUsuario(Guid usuarioId, UsuarioRequest request)
+        public IActionResult UpdateUsuario(UsuarioRequest request)
         {
-            // Obtener el token desde el encabezado de la solicitud
-            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
-
-            // Verificar si el token ha caducado
-            if (_tokenService.IsTokenExpired(token))
-            {
-                return Unauthorized("El token ha caducado.");
-            }
+            var user = User.Identity.Name;
 
             // Resto de la lógica de tu método...
             UsuarioUpdateResponse result = null;
 
             try
             {
-                result = _usuarioService.UpdateUsuario(usuarioId, request);
+                result = _usuarioService.UpdateUsuario(Guid.Parse(user), request);
             }
             catch (InvalidDataException ex)
             {
@@ -167,32 +141,32 @@ namespace API.Controllers
         /// <summary>
         /// elimina un usuario existente
         /// </summary>
-        [Authorize]
-        [HttpDelete("{usuarioId}")]
-        [ProducesResponseType(typeof(UsuarioDeleteResponse), 200)]
-        [ProducesResponseType(typeof(BadRequest), 400)]
-        [ProducesResponseType(typeof(NotFound), 404)]
-        [ProducesResponseType(typeof(Conflict), 409)]
-        public IActionResult DeleteUsuario(Guid usuarioId)
-        {
-            try
-            {
-                var result = _usuarioService.RemoveUsuario(usuarioId);
-                return Ok(result);
-            }
-            catch (UserNotFoundException)
-            {
-                // Considera registrar el error (e.Message) aquí para fines de depuración.
-                return NotFound(new { message = "Usuario no encontrado." });
-            }
-            catch (KeyNotFoundException)
-            {
-                return NotFound(new NotFound { Message = "Ese usuario no existe" });
-            }
-            catch (ConflictException ex)
-            {
-                return StatusCode(409, new Conflict { Message = ex.Message });
-            }
-        }
+        //[Authorize]
+        //[HttpDelete("{usuarioId}")]
+        //[ProducesResponseType(typeof(UsuarioDeleteResponse), 200)]
+        //[ProducesResponseType(typeof(BadRequest), 400)]
+        //[ProducesResponseType(typeof(NotFound), 404)]
+        //[ProducesResponseType(typeof(Conflict), 409)]
+        //public IActionResult DeleteUsuario(Guid usuarioId)
+        //{
+        //    try
+        //    {
+        //        var result = _usuarioService.RemoveUsuario(usuarioId);
+        //        return Ok(result);
+        //    }
+        //    catch (UserNotFoundException)
+        //    {
+        //        // Considera registrar el error (e.Message) aquí para fines de depuración.
+        //        return NotFound(new { message = "Usuario no encontrado." });
+        //    }
+        //    catch (KeyNotFoundException)
+        //    {
+        //        return NotFound(new NotFound { Message = "Ese usuario no existe" });
+        //    }
+        //    catch (ConflictException ex)
+        //    {
+        //        return StatusCode(409, new Conflict { Message = ex.Message });
+        //    }
+        //}
     }
 }

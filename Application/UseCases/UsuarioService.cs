@@ -109,17 +109,17 @@ namespace Application.UseCase.Usuarios
             return _query.GetUsuarioList();
         }
 
-        public UsuarioDeleteResponse RemoveUsuario(Guid usuarioId)
-        {
-            var usuario = _command.RemoveUsuario(usuarioId);
+        //public UsuarioDeleteResponse RemoveUsuario(Guid usuarioId)
+        //{
+        //    var usuario = _command.RemoveUsuario(usuarioId);
 
-            return new UsuarioDeleteResponse
-            {
-                UsuarioId = usuario.UsuarioId,
-                Username = usuario.Username,
-                Email = usuario.Email,
-            };
-        }
+        //    return new UsuarioDeleteResponse
+        //    {
+        //        UsuarioId = usuario.UsuarioId,
+        //        Username = usuario.Username,
+        //        Email = usuario.Email,
+        //    };
+        //}
 
         public UsuarioUpdateResponse UpdateUsuario(Guid usuarioId, UsuarioRequest request)
         {
