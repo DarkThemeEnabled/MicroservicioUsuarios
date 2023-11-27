@@ -5,9 +5,8 @@
     "\\Application\\Interfaces",
     "\\Application\\Response",
     "\\Application\\UseCases",
-    "\\Infrastructure\\command",
     "\\MicroservicioUsuarios"
   ],
-  "SelectedNode": "\\Application\\Interfaces\\IUsuarioService.cs",
+  "SelectedNode": "\\MicroservicioUsuarios\\appsettings.json",
   "PreviewInSolutionExplorer": false
 }

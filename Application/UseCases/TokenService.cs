@@ -32,6 +32,7 @@ namespace Application.UseCases
             {
             new Claim(JwtRegisteredClaimNames.UniqueName, userLogin.UsuarioId.ToString()),
             new Claim(JwtRegisteredClaimNames.Name , userLogin.Nombre),
+            new Claim("Apellido", userLogin.Apellido),
             new Claim(JwtRegisteredClaimNames.Email, userLogin.Email),
             };
 
